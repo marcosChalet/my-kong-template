@@ -2,17 +2,53 @@
   {
     "service": {
       "name": "servico1",
-      "url": "http://url-servico1",
-      "port": 8080
+      "url": "http://zuul-server:9090"
     },
-    "routes": ["/rota1", "/rota2"]
+    "routes": [
+      {
+        "name": "rota1",
+        "paths": ["/rota1"],
+        "path_handling": "v1",
+        "methods": [
+          "GET",
+          "PUT",
+          "POST",
+          "DELETE",
+          "OPTIONS"
+        ]
+      },
+      {
+        "name": "rota2",
+        "paths": ["/rota2"],
+        "path_handling": "v1",
+        "methods": [
+          "GET",
+          "PUT",
+          "POST",
+          "DELETE",
+          "OPTIONS"
+        ]
+      }
+    ]
   },
   {
     "service": {
       "name": "servico2",
-      "url": "http://url-servico2",
-      "port": 8080
+      "url": "http://zuul-server:9090"
     },
-    "routes": ["/rota3"]
+    "routes": [
+      {
+        "name": "rota3",
+        "paths": ["/rota3"],
+        "path_handling": "v1",
+        "methods": [
+          "GET",
+          "PUT",
+          "POST",
+          "DELETE",
+          "OPTIONS"
+        ]
+      }
+    ]
   }
 ]

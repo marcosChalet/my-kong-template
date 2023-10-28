@@ -13,16 +13,12 @@ def add_service(service_data):
     print(f'Falha ao adicionar serviço {service_data["name"]}. Status code: {response.status_code}')
     return None
 
-def add_route(service_id, route_path):
-  route_data = {
-    "paths": [route_path],
-    "service": {"id": service_id}
-  }
-  response = requests.post(f'{KONG_ADMIN_URL}/routes/', json=route_data)
+def add_route(service_id, route_data):
+  response = requests.post(f'{KONG_ADMIN_URL}/services/{service_id}/routes', json=route_data)
   if response.status_code == 201:
-    print(f'Rota adicionada para o serviço {service_id}.')
+    print(f'Rota {route_data["name"]} adicionada para o serviço {service_id}.')
   else:
-    print(f'Falha ao adicionar rota para o serviço {service_id}. Status code: {response.status_code}')
+    print(f'Falha ao adicionar rota {route_data["name"]} para o serviço {service_id}. Status code: {response.status_code}')
 
 with open(f'{JSON_NAME}') as json_file:
   data = json.load(json_file)
