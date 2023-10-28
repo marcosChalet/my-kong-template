@@ -1,0 +1,18 @@
+[
+  {
+    "service": {
+      "name": "servico1",
+      "url": "http://url-servico1",
+      "port": 8080
+    },
+    "routes": ["/rota1", "/rota2"]
+  },
+  {
+    "service": {
+      "name": "servico2",
+      "url": "http://url-servico2",
+      "port": 8080
+    },
+    "routes": ["/rota3"]
+  }
+]
