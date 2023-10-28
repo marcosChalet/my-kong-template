@@ -27,5 +27,5 @@ openssl req -new -x509 -key localhost.key -out localhost.crt -days 365
 4. Rode o projeto
 
 ```
-docker compose up -d
+cd .. && docker compose up -d
 ```
