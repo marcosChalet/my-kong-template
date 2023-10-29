@@ -47,21 +47,21 @@ def create_test_consumer():
         print(f'Falha ao criar consumidor de teste. Status code: {response.status_code}')
 
 def wait_for_kong():
-    max_retry = 60
-    retry_interval = 5
-    for _ in range(max_retry):
-        try:
-            response = requests.get(f'{KONG_ADMIN_URL}/status')
-            if response.status_code == 200:
-                print('Kong está pronto. Continuando...')
-                return
-        except requests.exceptions.ConnectionError:
-            pass
+  max_retry = 60
+  retry_interval = 5
+  for _ in range(max_retry):
+    try:
+      response = requests.get(f'{KONG_ADMIN_URL}/status')
+      if response.status_code == 200:
+        print('Kong está pronto. Continuando...')
+        return
+    except requests.exceptions.ConnectionError:
+      pass
 
-        print('Aguardando Kong iniciar...')
-        time.sleep(retry_interval)
+    print('Aguardando Kong iniciar...')
+    time.sleep(retry_interval)
 
-    print('Tempo limite atingido. Continuando, mas Kong pode não estar pronto.')
+  print('Tempo limite atingido. Continuando, mas Kong pode não estar pronto.')
 
 
 with open(SERVICES_JSON_NAME) as json_file:
