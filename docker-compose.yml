@@ -11,6 +11,8 @@ services:
       - POSTGRES_USER=kong
       - POSTGRES_DB=kong
       - POSTGRES_PASSWORD=kongpass
+    volumes:
+       - postgres-db:/data/postgres
   
   kong-migration:
     image: kong/kong-gateway:3.4.1.1
@@ -79,6 +81,23 @@ services:
       - ./certs:/etc/nginx/ssl
     depends_on:
       - kong
+
+  data-kong:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - kong-net
+    depends_on:
+      - kong
+      - nginx-proxy
+      - kong-migration
+      - kong-database
+
+
+volumes:
+  postgres-db:
+    driver: local
 
 networks:
   kong-net:

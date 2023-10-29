@@ -1,7 +1,8 @@
 import requests
+import time
 import json
 
-KONG_ADMIN_URL = 'http://localhost:8001'
+KONG_ADMIN_URL = 'http://kong:8001'
 SERVICES_JSON_NAME = 'conf.json'
 PLUGINS_JSON_NAME = 'plugins.json'
 CONSUMER_TEST_NAME = 'teste'
@@ -45,6 +46,23 @@ def create_test_consumer():
     else:
         print(f'Falha ao criar consumidor de teste. Status code: {response.status_code}')
 
+def wait_for_kong():
+    max_retry = 60
+    retry_interval = 5
+    for _ in range(max_retry):
+        try:
+            response = requests.get(f'{KONG_ADMIN_URL}/status')
+            if response.status_code == 200:
+                print('Kong está pronto. Continuando...')
+                return
+        except requests.exceptions.ConnectionError:
+            pass
+
+        print('Aguardando Kong iniciar...')
+        time.sleep(retry_interval)
+
+    print('Tempo limite atingido. Continuando, mas Kong pode não estar pronto.')
+
 
 with open(SERVICES_JSON_NAME) as json_file:
   data = json.load(json_file)
@@ -52,6 +70,8 @@ with open(SERVICES_JSON_NAME) as json_file:
 with open(PLUGINS_JSON_NAME) as plugins_json_file:
   plugins_data = json.load(plugins_json_file)
 
+
+wait_for_kong()
 create_test_consumer()
 
 for item in data:
